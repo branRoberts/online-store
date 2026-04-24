@@ -60,17 +60,19 @@ public class Store {
     public static void loadInventory(String fileName, ArrayList<Product> inventory) {
         // TODO: read each line, split on "|",
         //       create a Product object, and add it to the inventory list
+        String line;
         try {
-            String line;
-            BufferedReader reader = new BufferedReader(new FileReader("products.csv"));
+
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split("\\|");
-                int id = Integer.parseInt(values[0]);
+                String id = values[0];
                 String name = values[1];
                 double price = Double.parseDouble(values[2]);
                 inventory.add(new Product(id, name, price));
 
             }
+            reader.close();
         }catch (Exception e) {
             System.err.println("Error loading file!");
         }
@@ -86,6 +88,14 @@ public class Store {
                                        Scanner scanner) {
         // TODO: show each product (id, name, price),
         //       prompt for an id, find that product, add to cart
+        int countInventory = 0;
+        while (countInventory < inventory.size()) {
+            Product product = inventory.get(countInventory);
+            System.out.println("Product ID: " + product.getId() + " Name: " + product.getName() + " Price: " + product.getPrice());
+            countInventory++;
+        }
+        System.out.println("Enter ID of product to add to cart: Or Go back");
+
 
     }
 
