@@ -66,11 +66,15 @@ public class Store {
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split("\\|");
                 int id = Integer.parseInt(values[0]);
+                String name = values[1];
+                double price = Double.parseDouble(values[2]);
+                inventory.add(new Product(id, name, price));
 
             }
         }catch (Exception e) {
             System.err.println("Error loading file!");
         }
+
     }
 
     /**
