@@ -88,14 +88,40 @@ public class Store {
                                        Scanner scanner) {
         // TODO: show each product (id, name, price),
         //       prompt for an id, find that product, add to cart
+        boolean found = false;
         int countInventory = 0;
         while (countInventory < inventory.size()) {
             Product product = inventory.get(countInventory);
             System.out.println("Product ID: " + product.getId() + " Name: " + product.getName() + " Price: " + product.getPrice());
             countInventory++;
         }
-        System.out.println("Enter ID of product to add to cart: Or Go back");
+       while (true) {
+           System.out.println("Would you like to add an item to the cart? Enter C. If not enter X.");
+           String choiceAddToCart = scanner.nextLine();
+           if (choiceAddToCart.equalsIgnoreCase("X")) {
+               return;
+           }
+           else if (choiceAddToCart.equalsIgnoreCase("C")) {
 
+               System.out.print("Enter ID of product to add to cart:");
+               String searchingForId = scanner.nextLine();
+               for (int i = 0; i < inventory.size(); i++) {
+                   if (inventory.get(i).getId().equalsIgnoreCase(searchingForId)) {
+                       System.out.println("Name: " + inventory.get(i).getName() + " has been added to cart.");
+                       cart.add(inventory.get(i));
+                       found = true;
+                   }
+               }
+                   if (!found)  {
+                       System.out.println("Product with ID: " + searchingForId + " not found!");
+                       return;
+                   }
+
+           } else {
+               System.out.println("Invalid choice!");
+           }
+
+       }
 
     }
 
@@ -109,6 +135,11 @@ public class Store {
         //   • compute the total cost
         //   • ask the user whether to check out (C) or return (X)
         //   • if C, call checkOut(cart, totalAmount, scanner)
+        System.out.println("Welcome to cart menu! \n");
+        for (int i = 0; i < cart.size(); i++) {
+            Product product = cart.get(i);
+            System.out.println("Product ID: " + product.getId() + " Name: " + product.getName() + " Price: " + product.getPrice());
+        }
     }
 
     /**
