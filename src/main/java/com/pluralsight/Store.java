@@ -135,10 +135,27 @@ public class Store {
         //   • compute the total cost
         //   • ask the user whether to check out (C) or return (X)
         //   • if C, call checkOut(cart, totalAmount, scanner)
+        double totalAmount = 0;
         System.out.println("Welcome to cart menu! \n");
         for (int i = 0; i < cart.size(); i++) {
             Product product = cart.get(i);
             System.out.println("Product ID: " + product.getId() + " Name: " + product.getName() + " Price: " + product.getPrice());
+            totalAmount += product.getPrice();
+        }
+        System.out.println("Total price: " + totalAmount);
+
+        while (true) {
+            System.out.println("Would you like to check out? If yes enter C. If not enter X.");
+            String choiceCheckOut = scanner.nextLine();
+            if (choiceCheckOut.equalsIgnoreCase("X")) {
+                return;
+            }
+            else if (choiceCheckOut.equalsIgnoreCase("C")) {
+                checkOut(cart,totalAmount,scanner);
+            }
+            else {
+                System.out.println("Invalid choice!");
+            }
         }
     }
 
@@ -153,6 +170,34 @@ public class Store {
                                 double totalAmount,
                                 Scanner scanner) {
         // TODO: implement steps listed above
+        System.out.println("Are you sure you want to check out this cart? C for yes. X for no. ");
+        String choiceCheckOutConfirm = scanner.nextLine();
+        if (choiceCheckOutConfirm.equalsIgnoreCase("X")) {
+            cart.clear();
+            System.out.println("Cart cleared!\n");
+            System.out.println("Thank you for shopping with us!");
+        } else if (choiceCheckOutConfirm.equalsIgnoreCase("C")) {
+            while (true) {
+                System.out.println("Enter your amount:");
+                double customerAmount = scanner.nextDouble();
+
+                if (customerAmount <= totalAmount || customerAmount > totalAmount) {
+                    totalAmount = totalAmount - customerAmount;
+                    if (totalAmount == 0 || totalAmount < 0) {
+                        System.out.println("Here's your Receipt!\n");
+                        for (Product product : cart) {
+                            System.out.println(" Name: " + product.getName() + " Price: " + product.getPrice());
+                        }
+                        System.out.println("Thank you for shopping with us!");
+                        cart.clear();
+                        return;
+                    } else if (totalAmount > 0) {
+                        System.out.println("You have $" + totalAmount + " left.");
+                    }
+
+                }
+            }
+        }
     }
 
     /**
