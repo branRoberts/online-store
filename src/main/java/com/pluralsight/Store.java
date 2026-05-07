@@ -180,22 +180,29 @@ public class Store {
             while (true) {
                 System.out.println("Enter your amount:");
                 double customerAmount = scanner.nextDouble();
-
-                if (customerAmount <= totalAmount || customerAmount > totalAmount) {
-                    totalAmount = totalAmount - customerAmount;
-                    if (totalAmount == 0 || totalAmount < 0) {
+                if (customerAmount <= 0 ) {
+                    System.out.println("Invalid amount!");
+                    continue;
+                }
+                totalAmount -= customerAmount;
+                totalAmount = Math.round(totalAmount * 100.0) / 100.0;
+                    if (totalAmount <= 0) {
+                        double change = Math.abs(totalAmount);
                         System.out.println("Here's your Receipt!\n");
                         for (Product product : cart) {
                             System.out.println(" Name: " + product.getName() + " Price: " + product.getPrice());
                         }
+                        if (change > 0){
+                            System.out.println("-------------------------------------------");
+                            System.out.printf("Your change is $%.2f!%n", change);
+                        }
+                        System.out.println("------------------------------------------------");
                         System.out.println("Thank you for shopping with us!");
                         cart.clear();
                         return;
-                    } else if (totalAmount > 0) {
-                        System.out.println("You have $" + totalAmount + " left.");
+                    } else  {
+                        System.out.printf("You have $%.2f left.%n", totalAmount);
                     }
-
-                }
             }
         }
     }
